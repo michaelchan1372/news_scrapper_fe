@@ -4,9 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Button from '@/app/(components)/button';
 import Link from 'next/link';
 
-export default function Page({
-}: {
-}) {
+export default function Page() {
     const router = useRouter();
     const params = useParams();
     const { region, published_date } = params
@@ -148,12 +146,6 @@ function stripHtmlTags(html: string) {
 
 function TD({ children } : {children: React.ReactNode}) {
   return <td className="border py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate">
-        {children}
-    </td>
-}
-
-function TDWide({ children } : {children: React.ReactNode}) {
-  return <td className="border py-2 px-2 min-w-lg">
         {children}
     </td>
 }

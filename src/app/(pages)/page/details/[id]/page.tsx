@@ -5,7 +5,7 @@ import { useParams, useRouter  } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-export default function Page({}: {}) {
+export default function Page() {
     const params = useParams();
     const router = useRouter();
 
@@ -26,7 +26,7 @@ export default function Page({}: {}) {
             }
             )
             .catch(console.error);
-        }, []);
+        }, [id]);
     return <div>
         <Button onClick={() => router.back()} text="Go Back"></Button>
         <p>{data.split('\n').map((line, index) => (
