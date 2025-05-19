@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    remote_connection: "",
+    local_connection: "http://localhost:8000"
+  },
 };
 
 export default nextConfig;
