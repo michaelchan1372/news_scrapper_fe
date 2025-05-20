@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Page() {
   const [data, seTData] = useState<{published_date: string, region: string, num: number}[]>([]);
   useEffect(() => {
-    fetch(`${process.env.remote_connection || process.env.local_connection}/scrape`)
+    fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/`)
       .then((res) => res.json())
       .then( (data) => {
         seTData(data)
