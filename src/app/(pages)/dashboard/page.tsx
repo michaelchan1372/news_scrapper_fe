@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Page() {
-  const [data, seTData] = useState<{published_date: string, region: string, num: number}[]>([]);
+  const [data, seTData] = useState<{published_date: string, region: string, num: number, keywords: string}[]>([]);
   useEffect(() => {
     fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/`)
       .then((res) => res.json())
@@ -23,6 +23,7 @@ export default function Page() {
         <TH>Published Date</TH>
         <TH>Region</TH>
         <TH>Number</TH>
+        <TH>Keywords</TH>
         <TH>Summary</TH>
       </tr>
         {data.map((val, i) => (
@@ -31,6 +32,7 @@ export default function Page() {
         text-gray-200 py-2 px-2 rounded-md'>{val.published_date}</span></Link></TD>
             <TD>{val.region}</TD>
             <TD>{val.num}</TD>
+            <TD>{val.keywords}</TD>
             <TDWide>under development</TDWide>
           </tr>
         ))}
