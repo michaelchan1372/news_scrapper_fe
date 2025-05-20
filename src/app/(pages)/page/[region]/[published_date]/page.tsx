@@ -23,7 +23,7 @@ export default function Page() {
     }[]>([]);
 
     useEffect(() => {
-      fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/page/`, {
+      fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/page`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export default function Page() {
     }, []);
 
     const downloadCsv = async () => {
-        fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/download/`, {
+        fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/download`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export default function Page() {
 
     const downloadZip = async (id: number) => {
         const idStr = id.toString();
-        fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/zip/`, {
+        fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/zip`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

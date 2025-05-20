@@ -13,7 +13,7 @@ export default function Page() {
     const [data, seTData] = useState<string>("");
 
     useEffect(() => {
-          fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/text/`, {
+          fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/text`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
