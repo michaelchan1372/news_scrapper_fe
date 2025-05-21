@@ -152,9 +152,3 @@ function TDShort({ children } : {children: React.ReactNode}) {
         {children}
     </td>
 }
-
-function TH({ children } : {children: React.ReactNode}) {
-  return <th className="py-2 px-1">
-        {children}
-    </th>
-}
