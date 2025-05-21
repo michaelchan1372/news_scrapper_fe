@@ -20,6 +20,7 @@ export default function Page() {
         , html_path: string
         , scrape_date : string
         , keyword: string
+        , source: string
     }[]>([]);
 
     useEffect(() => {
@@ -85,7 +86,7 @@ export default function Page() {
     router.push('/dashboard');  // change '/target-path' to your desired URL
     };
 
-    return <div>
+    return <div className="">
         <div className='flex flex-row'>
             <Button
                 style={{
@@ -100,28 +101,30 @@ export default function Page() {
             />
         </div>
         
-        <table>
-            <tbody>
-                <tr>
-                    <TH>Id</TH>
-                    <TH>Keyword</TH>
-                    <TH>Title</TH>
-                    <TH>Link</TH>
-                    <TH>Description</TH>
-                    <TH>Published On</TH>
-                    <TH>Scrape Date</TH>
-                    <TH>Archieve</TH>
-                </tr>
+        <table className='w-[80%] table-auto'>
+            <tbody className='w-4/5 max-w-4/5'>
+                <tr className='bg-white w-4/5 max-w-4/5 bg-opacity-50'>
+                    <th className="py-2 px-1 border-b border-gray-300">Id</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Keyword</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Title</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Source</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Link</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Description</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Published On</th>
+                    <th className="py-2 px-1 border-b border-gray-300">Scrape Date</th>
+                    <th className="py-2 px-2 border-b border-gray-300">Archieve</th>
+                </tr >
                 {data.map((val, i) => (
-                <tr key={i}>
-                    <TD>{val.id}</TD>
-                    <TD>{val.keyword}</TD>
-                    <TD>{val.title}</TD>
-                    <TD><a className="text-blue-600" href={val.link}>{val.link}</a></TD>    
-                    <TD>{stripHtmlTags(val.description)}</TD>
-                    <TD>{val.published}</TD>
-                    <TD>{val.scrape_date}</TD>
-                    <TD>
+                <tr key={i} className='bg-white w-4/5 max-w-4/5 bg-opacity-50'>
+                    <td className="py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.id}</td>
+                    <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keyword}</td>
+                    <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.title}</td>
+                    <TDShort>{val.source}</TDShort>
+                    <TDShort><a className="text-blue-600" href={val.link}>{val.link}</a></TDShort>    
+                    <TDShort>{stripHtmlTags(val.description)}</TDShort>
+                    <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.published}</td>
+                    <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.scrape_date}</td>
+                    <td className="py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">
                         <div className='text-blue-600'>   
                             <Link href={`/page/details/${val.id}`}>
                                 {val.content_path? "Text": ""}<br></br>
@@ -131,7 +134,7 @@ export default function Page() {
                             </div>
                         </div>
                         
-                    </TD>
+                    </td>
                 </tr>
                 ))}
             </tbody>
@@ -144,14 +147,14 @@ function stripHtmlTags(html: string) {
   return html.replace(/<[^>]*>/g, '');
 }
 
-function TD({ children } : {children: React.ReactNode}) {
-  return <td className="border py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate">
+function TDShort({ children } : {children: React.ReactNode}) {
+  return <td className="py-2 px-1 max-w-3xs overflow-hidden whitespace-nowrap truncate border-b border-gray-300">
         {children}
     </td>
 }
 
 function TH({ children } : {children: React.ReactNode}) {
-  return <th className="border py-2 px-2">
+  return <th className="py-2 px-1">
         {children}
     </th>
 }

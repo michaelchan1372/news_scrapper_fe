@@ -37,51 +37,38 @@ export default function Page() {
   return <div>
     <div>
         <label htmlFor="fruit">Choose a region: </label>
-        <select id="fruit" value={selectedOption} onChange={handleChange}>
+        <select className="border rounded-md" id="fruit" value={selectedOption} onChange={handleChange}>
           <option value="">all</option>
           {regionList.map((val, i) => (
             <option key={i} value={val}>{val}</option>
           ))}
         </select>
       </div>
-    <table className='border-collapse border border-gray-400'>
+    <table className='border-collapse w-[70%] table-auto'>
       <tbody>
-        <tr>
-        <TH>Published Date</TH>
-        <TH>Region</TH>
-        <TH>Number</TH>
-        <TH>Keywords</TH>
-        <TH>Summary</TH>
+        <tr className='bg-white w-4/5 max-w-4/5 bg-opacity-50'>
+        <th className="py-2 px-1 border-b border-gray-300">Published Date</th>
+        <th className="py-2 px-1 border-b border-gray-300">Region</th>
+        <th className="py-2 px-1 border-b border-gray-300">Number</th>
+        <th className="py-2 px-1 border-b border-gray-300">Keywords</th>
+        <th className="py-2 px-1 border-b border-gray-300">Summary</th>
       </tr>
         {filteredData.map((val, i) => (
-          <tr key={i}>
-            <TD><Link href={`/page/${val.region}/${val.published_date}`}><span className='bg-blue-500
-        text-gray-200 py-2 px-2 rounded-md'>{val.published_date}</span></Link></TD>
-            <TD>{val.region}</TD>
-            <TD>{val.num}</TD>
-            <TD>{val.keywords}</TD>
-            <TDWide>under development</TDWide>
+          <tr key={i} className='bg-white w-4/5 max-w-4/5 bg-opacity-50'>
+            <td className="py-2 px-2 max-w-xs overflow-hidden whitespace-nowrap truncate border-b border-gray-300">
+              <Link href={`/page/${val.region}/${val.published_date}`}>
+                <span className='py-2 px-2 rounded-md hover:bg-gray-200 cursor-pointer text-blue-500'>
+                  {val.published_date}
+                </span>
+                </Link>
+          </td>
+            <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.region}</td>
+            <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.num}</td>
+            <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keywords}</td>
+            <td className="py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">under development</td>
           </tr>
         ))}
       </tbody>
     </table>
     </div>
-}
-
-function TD({ children } : {children: React.ReactNode}) {
-  return <td className="border py-2 px-2">
-        {children}
-    </td>
-}
-
-function TDWide({ children } : {children: React.ReactNode}) {
-  return <td className="border py-2 px-2 min-w-lg">
-        {children}
-    </td>
-}
-
-function TH({ children } : {children: React.ReactNode}) {
-  return <th className="border py-2 px-2">
-        {children}
-    </th>
 }

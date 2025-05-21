@@ -8,7 +8,7 @@ export default async function BlogLayout({
   params: Promise<{ published_date: string , region:string }>
 }) {
   const { published_date } = await params
-  return <div className="flex flex-col">
+  return <div className="flex flex-col min-h-screen">
     <Header title={published_date}></Header>
     <Body>{children}</Body>
   </div>

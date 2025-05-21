@@ -6,7 +6,7 @@ export default function BlogLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="flex flex-col">
+  return <div className="flex flex-col min-h-screen">
     <Header title="Dashboard"></Header>
     <Body>{children}</Body>
   </div>
