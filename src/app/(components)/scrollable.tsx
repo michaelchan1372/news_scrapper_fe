@@ -22,7 +22,7 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
     scrollInterval.current = setInterval(() => {
       const el = scrollRef.current;
       if (el) {
-        el.scrollLeft += direction === 'left' ? -12 : 12;
+        el.scrollLeft += direction === 'left' ? -3 : 3;
         updateArrows();
       }
     }, 30);
@@ -46,9 +46,9 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
 
   return (
     <td className="py-2 px-2 max-w-2xl border-b border-gray-300" >
-      <div className="relative flex items-center" onMouseLeave={stopScroll}>
+      <div className="relative flex items-center" onMouseEnter={() => startScroll('right')} onMouseLeave={stopScroll}>
         {/* Left Arrow */}
-        {showLeft && (
+        {/* {showLeft && (
           <div
             onMouseEnter={() => startScroll('left')}
             onMouseLeave={stopScroll}
@@ -56,7 +56,7 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
           >
             ◀
           </div>
-        )}
+        )} */}
 
         {/* Scrollable Content */}
         <div
@@ -67,7 +67,7 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
         </div>
 
         {/* Right Arrow */}
-        {showRight && (
+        {/* {showRight && (
           <div
             onMouseEnter={() => startScroll('right')}
             onMouseLeave={stopScroll}
@@ -75,7 +75,7 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
           >
             ▶
           </div>
-        )}
+        )} */}
       </div>
     </td>
   );
