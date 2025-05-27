@@ -48,6 +48,7 @@ export default function Page() {
         body: JSON.stringify({ region }),
         })
         .then( async (res) => {
+            console.log(res)
             const blob = await res.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -112,7 +113,7 @@ export default function Page() {
                     <th className="py-2 px-1 border-b border-gray-300">Description</th>
                     <th className="py-2 px-1 border-b border-gray-300">Published On</th>
                     <th className="py-2 px-1 border-b border-gray-300">Scrape Date</th>
-                    <th className="py-2 px-2 border-b border-gray-300">Archieve</th>
+                    <th className="py-2 px-2 border-b border-gray-300">Archive</th>
                 </tr >
                 {data.map((val, i) => (
                 <tr key={i} className='bg-white w-4/5 max-w-4/5 bg-opacity-50'>
@@ -120,18 +121,26 @@ export default function Page() {
                     <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keyword}</td>
                     <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.title}</td>
                     <TDShort>{val.source}</TDShort>
-                    <TDShort><a className="text-blue-600" href={val.link}>{val.link}</a></TDShort>    
+                    <TDShort><a className="text-emerald-400" href={val.link}>{val.link}</a></TDShort>    
                     <TDShort>{stripHtmlTags(val.description)}</TDShort>
                     <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.published}</td>
                     <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.scrape_date}</td>
                     <td className="py-2 px-2 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">
-                        <div className='text-blue-600'>   
-                            <Link href={`/page/details/${val.id}`}>
-                                {val.content_path? "Text": ""}<br></br>
-                            </Link>
-                            <div onClick={()=> downloadZip(val.id)}>
-                                {val.html_path? "Zip": ""}
-                            </div>
+                        <div className='flex text-white flex-col text-xs'>  
+                            {   val.content_path &&
+                                <div>
+                                    <Link  href={`/page/details/${val.id}`}>
+                                    <button className="shadow-md mb-1 bg-teal-500 border py-1 px-6 cursor-pointer hover:bg-teal-700 rounded-3xl">Text</button>
+                                    </Link>
+                                </div>              
+                            } 
+                            {   val.html_path && 
+                                <div>
+                                    <button className="shadow-md bg-teal-500 py-1 px-7 border cursor-pointer hover:bg-teal-700 rounded-3xl" onClick={()=> downloadZip(val.id)}>
+                                        Zip
+                                    </button>
+                                </div>
+                            }
                         </div>
                         
                     </td>

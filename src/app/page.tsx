@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
+import '../lib/fontawesome'; // This line is important
 
 export default function Home() {
   return (
