@@ -3,6 +3,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ScrollableCell } from "../../(components)/scrollable";
 
 export default function Page() {
   const [data, seTData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
@@ -83,7 +84,12 @@ export default function Page() {
             <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.region}</td>
             <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.num}</td>
             <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keywords}</td>
-            <td className="py-2 px-2 max-w-2xl overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.summary}</td>
+            {
+              val.summary && <ScrollableCell content={val.summary}/>
+            }
+            {
+              !val.summary && <td className="py-2 px-1 max-w-sm overflow-hidden whitespace-normal truncate border-b border-gray-300 text-center">Pending...</td>
+            }
             <td className="py-2 px-2 max-w-2xl overflow-hidden whitespace-nowrap truncate border-b border-gray-300 align-middle text-center ">
               <button onClick={()=> hideNews(val.region, val.published_date)}>
                 <FontAwesomeIcon icon={faTrash} className="text-gray-500"/>
