@@ -30,6 +30,7 @@ export default function Page() {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({ region, published_date }),
+        credentials: "include"
       })
         .then((res) => res.json())
         .then( (data) => {
@@ -37,7 +38,7 @@ export default function Page() {
         }
         )
         .catch(console.error);
-    }, []);
+    }, [region, published_date]);
 
     const downloadCsv = async () => {
         fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/download`, {
@@ -46,6 +47,7 @@ export default function Page() {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({ region }),
+        credentials: "include"
         })
         .then( async (res) => {
             console.log(res)
@@ -67,13 +69,17 @@ export default function Page() {
         headers: {
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id:idStr }),
+        body: JSON.stringify({ id: idStr }),
+        credentials: "include"
         })
         .then( async (res) => {
+
             if(res.status == 200){
-                const blob = await res.blob();
-                const url = window.URL.createObjectURL(blob);
+                console.log(res)
+                const data = await res.json();
+                const url = data.url;
                 const a = document.createElement("a");
+                console.log(url)
                 a.href = url;
                 a.download = `${id}_download.zip`; // Matches `filename` from FastAPI
                 a.click();
@@ -130,13 +136,13 @@ export default function Page() {
                             {   val.content_path &&
                                 <div>
                                     <Link  href={`/page/details/${val.id}`}>
-                                    <button className="shadow-md mb-1 bg-teal-500 border py-1 px-6 cursor-pointer hover:bg-teal-700 rounded-3xl">Text</button>
+                                    <button className="shadomd:w-md mb-1 bg-teal-500 border py-1 px-6 cursor-pointer hover:bg-teal-700 rounded-3xl">Text</button>
                                     </Link>
                                 </div>              
                             } 
                             {   val.html_path && 
                                 <div>
-                                    <button className="shadow-md bg-teal-500 py-1 px-7 border cursor-pointer hover:bg-teal-700 rounded-3xl" onClick={()=> downloadZip(val.id)}>
+                                    <button className="shadomd:w-md bg-teal-500 py-1 px-7 border cursor-pointer hover:bg-teal-700 rounded-3xl" onClick={()=> downloadZip(val.id)}>
                                         Zip
                                     </button>
                                 </div>

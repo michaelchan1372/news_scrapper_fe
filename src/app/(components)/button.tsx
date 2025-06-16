@@ -12,7 +12,7 @@ export default function Button({ text, onClick, disabled, style }: {
         bg-teal-500
         hover:bg-teal-700
         text-white
-        flex flex-row py-2 px-3 mb-2 w-48 rounded-lg bg-blue items-center justify-center dark:bg-blueDark`}
+        flex flex-row py-2 px-3 mb-2 w-36 rounded-lg bg-blue items-center justify-center dark:bg-blueDark whitespace-nowrap`}
       onClick={onClick}
       style={style}
       disabled={disabled}

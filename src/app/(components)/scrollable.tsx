@@ -11,8 +11,6 @@ export const ScrollableCell: React.FC<ScrollableCellProps> = ({ content }) => {
   const [showRight, setShowRight] = useState(false);
 
   const updateArrows = () => {
-    console.log(showLeft)
-    console.log(showRight)
     const el = scrollRef.current;
     if (!el) return;
     setShowLeft(el.scrollLeft > 0);

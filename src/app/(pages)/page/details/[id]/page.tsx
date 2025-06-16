@@ -19,6 +19,7 @@ export default function Page() {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify({ id }),
+            credentials: "include"
           })
             .then((res) => res.json())
             .then( (data) => {
