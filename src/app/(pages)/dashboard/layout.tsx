@@ -1,6 +1,7 @@
 import Body from "@/app/(components)/body"
 import Header from "@/app/(components)/header"
 import LogoutButton from "@/app/(components)/logout"
+import NavBar from "@/app/(components)/navBar"
 
 export default function BlogLayout({
   children,
