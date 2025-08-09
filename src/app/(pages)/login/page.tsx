@@ -55,6 +55,9 @@ export default function Page() {
       })
     
       if (!res.ok) {
+        if(res.status == 429) {
+          throw new Error('Too many request, please wait ');
+        }
         const data = await res.json()
         if(data.detail == "user not active"){
           dispatch(setUser({ email:  username, username: username }))

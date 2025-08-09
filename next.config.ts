@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   env: {
-    //remote_connection: "https://api.safersearch.org",
-    local_connection: "http://localhost:8000"
+    remote_connection: "https://api.safersearch.org",
+    //local_connection: "http://localhost:8000"
   },
   async rewrites() {
     return [

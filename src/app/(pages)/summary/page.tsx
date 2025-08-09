@@ -6,24 +6,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ScrollableCell } from "../../(components)/scrollable";
 
 export default function Page() {
-  const [data, seTData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
+  const [data, setData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
   const [filteredData, setFTData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
   const [regionList, setRegionList] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState('');
   const [triggerRefresh, setTriggerRefresh] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/`, {credentials: "include"})
-      .then((res) => res.json())
-      .then((res) => {
-        seTData(res)
-        }
-      )
-      .catch(console.error);
+    refresh();
   }, [triggerRefresh]);
 
+  const refresh = async () => {
+    try {
+      let res = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/`, {credentials: "include"})
+
+      if (res.status === 401) {
+        const refreshRes = await fetch(
+          `${process.env.remote_connection || process.env.local_connection}/auth/refresh`,
+          { method: "POST", credentials: "include" }
+        );
+        if (refreshRes.ok) {
+          res = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/`, {credentials: "include"})
+        } else {
+          console.error("Refresh token failed");
+          return;
+        }
+      }
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      setData(data)
+    }
+    catch(err) {
+      console.error(err);
+    }
+  }
+
   useEffect(()=>{
-    console.log(data)
     if(data && data.length){
       const regions = data.map((dat)=>dat.region)
       setRegionList([...new Set(regions)])
@@ -42,19 +60,38 @@ export default function Page() {
     setSelectedOption(event.target.value);
   };
 
-  const hideNews = (region: string, published_date: string) => {
+  const hideNews = async (region: string, published_date: string) => {
     const query = new URLSearchParams({
         region: region,
         published_date: published_date,
       });
-    fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/remove_news?${query.toString()}`, {
+    try {
+      let res = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/remove_news?${query.toString()}`, {
         method: 'DELETE',
         credentials: "include"
-      }).then((res)=>{
-        if(res.status == 200){
-          setTriggerRefresh(!triggerRefresh)
-        }
       })
+
+      if (res.status === 401) {
+        const refreshRes = await fetch(
+          `${process.env.remote_connection || process.env.local_connection}/auth/refresh`,
+          { method: "POST", credentials: "include" }
+        );
+        if (refreshRes.ok) {
+          res = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/remove_news?${query.toString()}`, {
+            method: 'DELETE',
+            credentials: "include"
+          })
+        } else {
+          console.error("Refresh token failed");
+          return;
+        }
+      }
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      setTriggerRefresh(!triggerRefresh)
+    }
+    catch(err) {
+      console.error(err);
+    }
   }
 
   function toTitleCase(str: string) {
