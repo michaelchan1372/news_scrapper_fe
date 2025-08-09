@@ -53,7 +53,7 @@ export default function Page() {
         body,
         credentials: 'include',
       })
-    
+      console.log(res)
       if (!res.ok) {
         if(res.status == 429) {
           throw new Error('Too many request, please wait ');
