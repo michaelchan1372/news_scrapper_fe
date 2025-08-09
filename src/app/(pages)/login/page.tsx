@@ -68,7 +68,7 @@ export default function Page() {
         }
       }
       setError("")
-      router.push('/dashboard')
+      window.location.href = '/dashboard';
     } catch (err: any) {
       console.log(err)
       setError(err.message)
