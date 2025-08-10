@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ScrollableCell } from "../../(components)/scrollable";
 
 export default function Page() {
-  const [data, setData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
-  const [filteredData, setFTData] = useState<{published_date: string, region: string, num: number, keywords: string, summary: string}[]>([]);
+  const [data, setData] = useState<{published_date: string, region: string, num: number, keyword: string, summary: string, k_id: number}[]>([]);
+  const [filteredData, setFTData] = useState<{published_date: string, region: string, num: number, keyword: string, summary: string, k_id: number}[]>([]);
   const [regionList, setRegionList] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState('');
   const [triggerRefresh, setTriggerRefresh] = useState(false);
@@ -116,14 +116,14 @@ export default function Page() {
         <th className="py-2 lg:px-1 border-b border-gray-300">Published Date</th>
         <th className="py-2 lg:px-1 border-b border-gray-300 hidden lg:table-cell">Region</th>
         <th className="py-2 lg:px-1 border-b border-gray-300 hidden lg:table-cell">Number</th>
-        <th className="py-2 lg:px-1 border-b border-gray-300">Keywords</th>
+        <th className="py-2 lg:px-1 border-b border-gray-300">Keyword</th>
         <th className="py-2 lg:px-1 border-b border-gray-300">Summary</th>
         <th className="py-2 lg:px-1 border-b border-gray-300">Hidden</th>
       </tr>
         {filteredData.map((val, i) => (
           <tr key={i} className='bg-white bg-opacity-50'>
             <td className="py-2 px-2 max-w-xs overflow-hidden whitespace-nowrap truncate border-b border-gray-300">
-              <Link href={`/page/${val.region}/${val.published_date}`}>
+              <Link href={`/page/${val.region}/${val.published_date}/${val.k_id}`}>
                 <span className='py-2 px-2 rounded-md hover:bg-gray-200 cursor-pointer text-blue-500'>
                   {val.published_date}
                 </span>
@@ -131,7 +131,7 @@ export default function Page() {
           </td>
             <td className="py-2 lg:px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300 hidden lg:table-cell">{toTitleCase(val.region)}</td>
             <td className="py-2 lg:px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300 hidden lg:table-cell">{val.num}</td>
-            <td className="py-2 lg:px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keywords}</td>
+            <td className="py-2 lg:px-1 max-w-sm overflow-hidden whitespace-nowrap truncate border-b border-gray-300">{val.keyword}</td>
             {
               val.summary && <ScrollableCell content={val.summary}/>
             }

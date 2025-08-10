@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Page() {
     const router = useRouter();
     const params = useParams();
-    const { region, published_date } = params
+    const { region, published_date, k_id } = params
 
     const [data, setData] = useState<{
         id: number
@@ -25,7 +25,7 @@ export default function Page() {
 
     useEffect(() => {
         refreshPage()
-    }, [region, published_date]);
+    }, [region, published_date, k_id]);
 
     const refreshPage = async () => {
         try {
@@ -34,7 +34,7 @@ export default function Page() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ region, published_date }),
+                body: JSON.stringify({ region, published_date, k_id }),
                 credentials: "include"
             })
 
@@ -49,7 +49,7 @@ export default function Page() {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ region, published_date }),
+                        body: JSON.stringify({ region, published_date, k_id }),
                         credentials: "include"
                     })
                 }
