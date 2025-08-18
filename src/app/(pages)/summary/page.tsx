@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ScrollableCell } from "../../(components)/scrollable";
 import MultiSelectDropdown from '@/app/(components)/multiSelect';
 import { Option } from '@/app/(components)/multiSelect';
+
+interface ISetting {
+  latest_scrape_date?: string
+}
+
 export default function Page() {
   const [data, setData] = useState<{published_date: string, region: string, num: number, keyword: string, summary: string, k_id: number}[]>([]);
   const [filteredData, setFTData] = useState<{published_date: string, region: string, num: number, keyword: string, summary: string, k_id: number}[]>([]);
@@ -16,6 +21,7 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState<boolean>(false);
   const [keywordListCache, setKeywordCache] = useState<Option[]>([]);
   const [regionListCache, setRegionCache] = useState<Option[]>([]);
+  const [settings, setSettings]= useState<ISetting>({});
   
   useEffect(() => {
     refresh();
@@ -41,6 +47,23 @@ export default function Page() {
       if (!res.ok) throw new Error(`Error: ${res.status}`);
       const data = await res.json();
       setData(data)
+
+      let settings = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/settings`, {credentials: "include"})
+
+      if (settings.status === 401) {
+        const refreshRes = await fetch(
+          `${process.env.remote_connection || process.env.local_connection}/auth/refresh`,
+          { method: "POST", credentials: "include" }
+        );
+        if (refreshRes.ok) {
+          settings = await fetch(`${process.env.remote_connection || process.env.local_connection}/scrape/settings`, {credentials: "include"})
+        } else {
+          console.error("Refresh token failed");
+          return;
+        }
+      }
+      const settingData = await settings.json();
+      setSettings(settingData)
     }
     catch(err) {
       console.error(err);
@@ -136,6 +159,10 @@ export default function Page() {
       .replace(/\b\w/g, char => char.toUpperCase()); // capitalize each word
   }
 
+  function parseDate(dateString: string) {
+    return new Date(dateString).toLocaleString()
+  }
+
   return <div>
     <div className='flex flex-row'>
     <MultiSelectDropdown
@@ -149,10 +176,11 @@ export default function Page() {
     onSelectionChange={handleChangeKeyword}
     ></MultiSelectDropdown>      
       </div>
-    <div className='flex flex-row-reverse'>
-      <button className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded shadow hover:bg-gray-300 items-center justify-center cursor-pointer" onClick={refresh}>
+    <div className='flex flex-row'>
+      <button className="my-2 text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded shadow hover:bg-gray-300 items-center justify-center cursor-pointer" onClick={refresh}>
         Refresh
       </button>
+      {settings.latest_scrape_date && <span className='py-4 mx-2 text-sm text-gray-500'>Last Scraped On: {parseDate(settings.latest_scrape_date)}</span>}
     </div>
     {
       isLoading && <div>

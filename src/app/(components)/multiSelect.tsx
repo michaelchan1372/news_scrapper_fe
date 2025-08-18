@@ -93,7 +93,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
 
   return (
     
-      <div className="px-2 max-w-128">
+      <div className="pr-2 max-w-128">
         <div className="relative">
           {/* Main select button */}
           <div
