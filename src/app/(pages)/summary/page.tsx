@@ -56,7 +56,7 @@ export default function Page() {
       const keywords = data.map((dat)=>dat.keyword)
       const regionSelects = [...new Set(regions)].map((r)=> {
           return {
-            label:r, value:r
+            label:toTitleCase(r), value:r
         };
       })
       setRegionList(regionSelects)
